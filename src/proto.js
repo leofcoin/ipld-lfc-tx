@@ -17,7 +17,6 @@ message LFCInput {
 message LFCTransaction {
   required string id = 1;
   required uint64 time = 2;
-  required string hash = 3;
   optional string reward = 4;
   repeated LFCInput inputs = 5;
   repeated LFCOutput outputs = 6;

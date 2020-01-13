@@ -3,8 +3,9 @@ import { serialize, deserialize } from './../util'
 
 export default classIs(class LFCTx {
   get _keys() {
-    return ['id', 'time', 'hash', 'reward', 'inputs', 'outputs']
+    return ['id', 'time', 'reward', 'inputs', 'outputs']
   }
+  
   constructor(tx) {
     if (Buffer.isBuffer(tx)) {
       this._defineTx(deserialize(tx))
