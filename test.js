@@ -47,11 +47,24 @@ test('deserialized is equal to serialized', tape => {
   tape.ok(equal)  
 })
 
+test('can serialize without inputs.', tape => {
+  tape.plan(1)
+  delete transactions[0].inputs
+  serialized = util.serialize(transactions[0])
+  tape.ok(Buffer.isBuffer(serialized))
+})
+
+test('can convert toString() without inputs.', tape => {
+  tape.plan(1)
+  delete transactions[0].inputs
+  serialized = util.serialize(transactions[0])
+  const node = new LFCTx(serialized)
+  tape.ok(node.toString())
+})
+
 test('LFCTx', async tape => {
   tape.plan(1)
   const node = new LFCTx(serialized)
-  console.log(node.toJSON());
   const tree = await resolver.resolve(node.serialize())
-  console.log(tree);
   tape.ok(Boolean(node.reward === 'minted'))
 })

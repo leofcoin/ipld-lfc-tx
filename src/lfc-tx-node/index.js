@@ -38,7 +38,7 @@ export default classIs(class LFCTx {
   }
   
   toString () {
-    return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", hash: "${this.hash.toString()}", reward: "${this.reward.toString()}", inputs: "${this.inputs.length}", outputs: "${this.outputs.length}", size: ${this.size}>`
+    return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", reward: "${this.reward.toString()}", inputs: "${this.inputs ? this.inputs.length : 0}", outputs: "${this.outputs.length}", size: ${this.size}>`
   }
   
   get size () {
