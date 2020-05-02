@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var CID = _interopDefault(require('cids'));
@@ -13,7 +15,8 @@ var proto = `// Leofcoin Transaction
 message LFCOutput {
   required uint64 index = 1;
   required uint64 amount = 2;
-  required string address = 3;
+  required string address = 3;  
+  optional string script = 4;
 }
 
 message LFCInput {
@@ -22,6 +25,7 @@ message LFCInput {
   required uint64 amount = 3;
   required string address = 4;
   required string signature = 5;
+  optional string script = 6;
 }
 
 message LFCTransaction {
@@ -116,7 +120,7 @@ const tree = function * (buffer) {
 
 var resolver = { resolve, traverse, tree };
 
-var LFCTx = classIs(class LFCTx {
+var index = classIs(class LFCTx {
   get _keys() {
     return ['id', 'time', 'reward', 'inputs', 'outputs']
   }
@@ -162,8 +166,9 @@ var LFCTx = classIs(class LFCTx {
 
 }, { className: 'LFCTx', symbolName: '@leofcoin/ipld-lfc-tx/lfc-tx'});
 
-var index = { 
-  util, codec: util.codec, defaultHashAlg: util.defaultHashAlg, LFCTx, resolver
-};
+const codec$1 = util.codec;
 
-module.exports = index;
+exports.LFCTx = index;
+exports.codec = codec$1;
+exports.resolver = resolver;
+exports.util = util;

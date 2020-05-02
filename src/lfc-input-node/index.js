@@ -3,7 +3,7 @@ import { serialize, deserialize } from './util'
 
 export default classIs(class LFCInput {
   get _keys() {
-    return ['tx', 'index', 'amount', 'address', 'signature']
+    return ['tx', 'index', 'amount', 'address', 'signature', 'script']
   }
   constructor(input) {
     if (Buffer.isBuffer(tx)) {
