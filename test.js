@@ -9,6 +9,7 @@ const transactions = [{
   id: hash,
   time,
   reward: 'minted',
+  script: '',
   inputs: [{
     index: 0,
     tx: hash,
@@ -29,13 +30,13 @@ let deserialized;
 test('can serialize', tape => {
   tape.plan(1)
   serialized = util.serialize(transactions[0])
-  tape.ok(Boolean(serialized.length === 360))
+  tape.ok(Boolean(serialized.length === 362))
 })
 
 test('can deserialize', tape => {
   tape.plan(1)
   deserialized = util.deserialize(serialized)
-  tape.ok(Boolean(Object.keys(deserialized).length === 5))
+  tape.ok(Boolean(Object.keys(deserialized).length === 6))
 })
 
 test('deserialized is equal to serialized', tape => {

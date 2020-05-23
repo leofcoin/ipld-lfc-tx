@@ -3,8 +3,7 @@ export default `// Leofcoin Transaction
 message LFCOutput {
   required uint64 index = 1;
   required uint64 amount = 2;
-  required string address = 3;  
-  optional string script = 4;
+  required string address = 3;
 }
 
 message LFCInput {
@@ -13,13 +12,13 @@ message LFCInput {
   required uint64 amount = 3;
   required string address = 4;
   required string signature = 5;
-  optional string script = 6;
 }
 
 message LFCTransaction {
   required string id = 1;
   required uint64 time = 2;
-  optional string reward = 4;
+  optional string reward = 3;
+  optional string script = 4;
   repeated LFCInput inputs = 5;
-  repeated LFCOutput outputs = 6;
+  repeated LFCOutput outputs = 6;  
 }`

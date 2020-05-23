@@ -3,7 +3,7 @@ import { serialize, deserialize } from './../util'
 
 export default classIs(class LFCTx {
   get _keys() {
-    return ['id', 'time', 'reward', 'inputs', 'outputs']
+    return ['id', 'time', 'reward', 'inputs', 'outputs', 'script']
   }
   
   constructor(tx) {
@@ -38,7 +38,7 @@ export default classIs(class LFCTx {
   }
   
   toString () {
-    return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", ${this.reward ? `reward: "${this.reward.toString()}", ` : ', '}inputs: "${this.inputs ? this.inputs.length : 0}", outputs: "${this.outputs.length}", size: ${this.size}>`
+    return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", ${this.reward ? `reward: "${this.reward.toString()}", ` : ', '}inputs: "${this.inputs ? this.inputs.length : 0}", outputs: "${this.outputs.length}"${this.script ? `, script: ${this.script.toString()}` : ''}, size: ${this.size}>`
   }
   
   get size () {

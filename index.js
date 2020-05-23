@@ -15,8 +15,7 @@ var proto = `// Leofcoin Transaction
 message LFCOutput {
   required uint64 index = 1;
   required uint64 amount = 2;
-  required string address = 3;  
-  optional string script = 4;
+  required string address = 3;
 }
 
 message LFCInput {
@@ -25,15 +24,15 @@ message LFCInput {
   required uint64 amount = 3;
   required string address = 4;
   required string signature = 5;
-  optional string script = 6;
 }
 
 message LFCTransaction {
   required string id = 1;
   required uint64 time = 2;
-  optional string reward = 4;
+  optional string reward = 3;
+  optional string script = 4;
   repeated LFCInput inputs = 5;
-  repeated LFCOutput outputs = 6;
+  repeated LFCOutput outputs = 6;  
 }`;
 
 const codec = multicodec.LEOFCOIN_TX;
@@ -122,7 +121,7 @@ var resolver = { resolve, traverse, tree };
 
 var index = classIs(class LFCTx {
   get _keys() {
-    return ['id', 'time', 'reward', 'inputs', 'outputs']
+    return ['id', 'time', 'reward', 'inputs', 'outputs', 'script']
   }
   
   constructor(tx) {
@@ -157,7 +156,7 @@ var index = classIs(class LFCTx {
   }
   
   toString () {
-    return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", ${this.reward ? `reward: "${this.reward.toString()}", ` : ', '}inputs: "${this.inputs ? this.inputs.length : 0}", outputs: "${this.outputs.length}", size: ${this.size}>`
+    return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", ${this.reward ? `reward: "${this.reward.toString()}", ` : ', '}inputs: "${this.inputs ? this.inputs.length : 0}", outputs: "${this.outputs.length}"${this.script ? `, script: ${this.script.toString()}` : ''}, size: ${this.size}>`
   }
   
   get size () {
