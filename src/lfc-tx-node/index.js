@@ -32,13 +32,19 @@ export default classIs(class LFCTx {
   
   toJSON() {
     return this._keys.reduce((p, c) => {
-      p[c] = this[c]
+      let value = this[c]
+      if (value === undefined && c === 'inputs') value = [] 
+      p[c] = value
       return p
     }, {})
   }
   
   toString () {
     return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", ${this.reward ? `reward: "${this.reward.toString()}", ` : ', '}inputs: "${this.inputs ? this.inputs.length : 0}", outputs: "${this.outputs.length}"${this.script ? `, script: ${this.script.toString()}` : ''}, size: ${this.size}>`
+  }
+  
+  isLFCTx() {
+    return true
   }
   
   get size () {

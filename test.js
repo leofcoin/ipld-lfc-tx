@@ -63,9 +63,27 @@ test('can convert toString() without inputs.', tape => {
   tape.ok(node.toString())
 })
 
-test('LFCTx', async tape => {
+test('tree', async tape => {
   tape.plan(1)
   const node = new LFCTx(serialized)
   const tree = await resolver.resolve(node.serialize())
   tape.ok(Boolean(node.reward === 'minted'))
+})
+
+test('validate', async tape => {
+  tape.plan(1)
+  const node = new LFCTx(serialized)
+  try {
+    util.validate(node)
+    tape.ok(true)
+  } catch (e) {
+      console.log(e);
+    tape.ok(false, e)  
+  }
+})
+
+test('isValid', async tape => {
+  tape.plan(1)
+  const node = new LFCTx(serialized)
+  tape.ok(util.isValid(node))
 })

@@ -8,6 +8,7 @@ var CID = _interopDefault(require('cids'));
 var multicodec = _interopDefault(require('multicodec'));
 var multihashing = _interopDefault(require('multihashing-async'));
 var protons = _interopDefault(require('protons'));
+var ishex = require('ishex');
 var classIs = _interopDefault(require('class-is'));
 
 var proto = `// Leofcoin Transaction
@@ -55,7 +56,51 @@ const cid = async buffer => {
 
   return new CID(1, codecName, multihash, 'base58btc')
 };
-var util = { serialize, deserialize, cid, codec, defaultHashAlg };
+
+const validate = json => {
+  if (json.isLFCTx()) json = json.toJSON();
+  
+  if (json.id.length !== 64) throw new Error(`Expected: 64 got ${json.id.length} @LFCTx.id.length`)
+  if (isNaN(json.time)) throw new Error(`Expected: typeof number got ${typeof json.time} @LFCTx.time`)
+  if (typeof json.reward !== 'string') throw new Error(`Expected: typeof string got ${typeof json.reward} @LFCTx.reward`)
+  if (json.reward !== 'mined' && json.reward !== 'minted') throw new Error(`Expected: mined or minted got ${json.reward} @LFCTx.reward`)
+  if (json.script && typeof json.script !== 'string') throw new Error(`Expected: typeof string got ${typeof json.script} @LFCTx.script`)
+  
+  if (json.inputs && json.inputs.length > 0) {
+    for (const key of json.inputs) {
+      const input = json.inputs[key];
+      if (input.tx.length !== 64) throw new Error(`Expected: 64 got ${input.tx.length} @LFCTx.inputs[${key}].tx.length`)
+      if (isNaN(input.index)) throw new Error(`Expected: typeof number got ${typeof input.index} @LFCTx.inputs[${key}].index`)
+      if (isNaN(input.amount)) throw new Error(`Expected: typeof number got ${typeof input.amount} @LFCTx.inputs[${key}].amount`)
+      if (typeof input.address !== 'string') throw new Error(`Expected: string got ${typeof input.address} @LFCTx.inputs[${key}].address`)
+      if (!ishex.isHex(input.signature)) throw new Error(`Expected: hex got ${typeof input.signature} @LFCTx.inputs[${key}].signature`)
+    }
+  }
+  if (json.outputs && json.outputs.length === 0) throw new Error('Transaction needs output!')
+  if (json.outputs && json.outputs.length > 0) {    
+    for (const output of json.outputs) {
+      
+      if (isNaN(output.index)) throw new Error(`Expected: typeof number got ${typeof output.index} @LFCTx.outputs[${key}].index`)
+      if (isNaN(output.amount)) throw new Error(`Expected: typeof number got ${typeof output.amount} @LFCTx.outputs[${key}].amount`)
+      if (typeof output.address !== 'string') throw new Error(`Expected: string got ${typeof output.address} @LFCTx.outputs[${key}].address`)
+    }  
+  }
+  try {
+    const serialized = serialize(json);
+  } catch (e) {
+    throw (e)
+  }
+};
+
+const isValid = data => {
+  try {
+    const valid = validate(data);
+    return true
+  } catch (e) {
+    return false
+  }
+};
+var util = { serialize, deserialize, cid, codec, defaultHashAlg, validate, isValid };
 
 const error = text => {
   const stack = new Error().stack;
@@ -150,13 +195,19 @@ var index = classIs(class LFCTx {
   
   toJSON() {
     return this._keys.reduce((p, c) => {
-      p[c] = this[c];
+      let value = this[c];
+      if (value === undefined && c === 'inputs') value = []; 
+      p[c] = value;
       return p
     }, {})
   }
   
   toString () {
     return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", ${this.reward ? `reward: "${this.reward.toString()}", ` : ', '}inputs: "${this.inputs ? this.inputs.length : 0}", outputs: "${this.outputs.length}"${this.script ? `, script: ${this.script.toString()}` : ''}, size: ${this.size}>`
+  }
+  
+  isLFCTx() {
+    return true
   }
   
   get size () {
