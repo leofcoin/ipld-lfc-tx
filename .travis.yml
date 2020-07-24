@@ -1,5 +1,18 @@
+os:
+  - linux
+  - windows
+  - osx
+
 language: node_js
 node_js:
-- stable
-- '6'
-- '4'
+- node
+
+after_success:
+  - node deploy.js success $WEBHOOK_URL
+  
+after_failure:
+- node deploy.js failure $WEBHOOK_URL
+
+branches:
+  only:
+  - master
