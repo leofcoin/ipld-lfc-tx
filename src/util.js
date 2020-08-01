@@ -27,7 +27,7 @@ export const cid = async buffer => {
 }
 
 export const validate = json => {
-  if (json.isLFCTx()) json = json.toJSON()
+  if (json.isLFCTx) json = json.toJSON()
   
   if (json.id.length !== 64) throw new Error(`Expected: 64 got ${json.id.length} @LFCTx.id.length`)
   if (isNaN(json.time)) throw new Error(`Expected: typeof number got ${typeof json.time} @LFCTx.time`)

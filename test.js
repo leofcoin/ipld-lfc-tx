@@ -77,13 +77,14 @@ test('validate', async tape => {
     util.validate(node)
     tape.ok(true)
   } catch (e) {
-      console.log(e);
     tape.ok(false, e)  
   }
 })
 
 test('isValid', async tape => {
-  tape.plan(1)
+  tape.plan(2)
   const node = new LFCTx(serialized)
   tape.ok(util.isValid(node))
+  tape.ok(node.isLFCTx, 'isLFCTx')
 })
+

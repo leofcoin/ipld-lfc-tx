@@ -58,7 +58,7 @@ const cid = async buffer => {
 };
 
 const validate = json => {
-  if (json.isLFCTx()) json = json.toJSON();
+  if (json.isLFCTx) json = json.toJSON();
   
   if (json.id.length !== 64) throw new Error(`Expected: 64 got ${json.id.length} @LFCTx.id.length`)
   if (isNaN(json.time)) throw new Error(`Expected: typeof number got ${typeof json.time} @LFCTx.time`)
@@ -206,7 +206,7 @@ var index = classIs(class LFCTx {
     return `LFCTx <id: "${this.id.toString()}", time: "${this.time.toString()}", ${this.reward ? `reward: "${this.reward.toString()}", ` : ', '}inputs: "${this.inputs ? this.inputs.length : 0}", outputs: "${this.outputs.length}"${this.script ? `, script: ${this.script.toString()}` : ''}, size: ${this.size}>`
   }
   
-  isLFCTx() {
+  get isLFCTx() {
     return true
   }
   
