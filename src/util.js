@@ -31,7 +31,6 @@ export const validate = json => {
 
   if (json.id.length !== 64) throw new Error(`Expected: 64 got ${json.id.length} @LFCTx.id.length`)
   if (isNaN(json.time)) throw new Error(`Expected: typeof number got ${typeof json.time} @LFCTx.time`)
-  if (typeof json.reward !== 'string') throw new Error(`Expected: typeof string got ${typeof json.reward} @LFCTx.reward`)
   if (json.reward && json.reward !== 'mined' && json.reward !== 'minted') throw new Error(`Expected: mined or minted got ${json.reward} @LFCTx.reward`)
   if (json.script && typeof json.script !== 'string') throw new Error(`Expected: typeof string got ${typeof json.script} @LFCTx.script`)
 
