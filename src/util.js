@@ -28,13 +28,13 @@ export const cid = async buffer => {
 
 export const validate = json => {
   if (json.isLFCTx) json = json.toJSON()
-  
+
   if (json.id.length !== 64) throw new Error(`Expected: 64 got ${json.id.length} @LFCTx.id.length`)
   if (isNaN(json.time)) throw new Error(`Expected: typeof number got ${typeof json.time} @LFCTx.time`)
   if (typeof json.reward !== 'string') throw new Error(`Expected: typeof string got ${typeof json.reward} @LFCTx.reward`)
-  if (json.reward !== 'mined' && json.reward !== 'minted') throw new Error(`Expected: mined or minted got ${json.reward} @LFCTx.reward`)
+  if (json.reward && json.reward !== 'mined' && json.reward !== 'minted') throw new Error(`Expected: mined or minted got ${json.reward} @LFCTx.reward`)
   if (json.script && typeof json.script !== 'string') throw new Error(`Expected: typeof string got ${typeof json.script} @LFCTx.script`)
-  
+
   if (json.inputs && json.inputs.length > 0) {
     for (const key of json.inputs) {
       const input = json.inputs[key]
@@ -46,13 +46,13 @@ export const validate = json => {
     }
   }
   if (json.outputs && json.outputs.length === 0) throw new Error('Transaction needs output!')
-  if (json.outputs && json.outputs.length > 0) {    
+  if (json.outputs && json.outputs.length > 0) {
     for (const output of json.outputs) {
-      
+
       if (isNaN(output.index)) throw new Error(`Expected: typeof number got ${typeof output.index} @LFCTx.outputs[${key}].index`)
       if (isNaN(output.amount)) throw new Error(`Expected: typeof number got ${typeof output.amount} @LFCTx.outputs[${key}].amount`)
       if (typeof output.address !== 'string') throw new Error(`Expected: string got ${typeof output.address} @LFCTx.outputs[${key}].address`)
-    }  
+    }
   }
   try {
     const serialized = serialize(json)
