@@ -8,7 +8,7 @@ message LFCOutput {
 
 message LFCInput {
   required uint64 index = 1;
-  required string tx = 2;  
+  required string tx = 2;
   required uint64 amount = 3;
   required string address = 4;
   required string signature = 5;
@@ -17,8 +17,8 @@ message LFCInput {
 message LFCTransaction {
   required string id = 1;
   required uint64 time = 2;
-  optional string reward = 3;
-  optional string script = 4;
+  required string reward = 3;
+  required string script = 4;
   repeated LFCInput inputs = 5;
-  repeated LFCOutput outputs = 6;  
+  repeated LFCOutput outputs = 6;
 }`
