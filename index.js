@@ -6,7 +6,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var CID = _interopDefault(require('cids'));
 var multicodec = _interopDefault(require('multicodec'));
-var multihashing = _interopDefault(require('multihashing-async'));
+var multihashing = _interopDefault(require('multihashing'));
 var protons = _interopDefault(require('protons'));
 var ishex = require('ishex');
 var classIs = _interopDefault(require('class-is'));
@@ -50,11 +50,12 @@ const deserialize = buffer => {
 /**
  * @returns {Promise.<CID>}
  */
-const cid = async buffer => {
-  const multihash = await multihashing(buffer, defaultHashAlg);
-  const codecName = multicodec.print[codec];
+const cid = buffer => {
+  return multihashing(buffer, defaultHashAlg, multihash => {
+    const codecName = multicodec.print[codec];
+    return new CID(1, codecName, multihash, 'base58btc')
+  })
 
-  return new CID(1, codecName, multihash, 'base58btc')
 };
 
 const validate = json => {

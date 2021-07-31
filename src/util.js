@@ -1,6 +1,6 @@
 import CID from 'cids'
 import multicodec from 'multicodec'
-import multihashing from 'multihashing-async'
+import multihashing from 'multihashing'
 import protons from 'protons'
 import proto from './proto.js'
 import { isHex } from 'ishex'
@@ -19,11 +19,12 @@ export const deserialize = buffer => {
 /**
  * @returns {Promise.<CID>}
  */
-export const cid = async buffer => {
-  const multihash = await multihashing(buffer, defaultHashAlg)
-  const codecName = multicodec.print[codec]
+export const cid = buffer => {
+  return multihashing(buffer, defaultHashAlg, multihash => {
+    const codecName = multicodec.print[codec]
+    return new CID(1, codecName, multihash, 'base58btc')
+  })
 
-  return new CID(1, codecName, multihash, 'base58btc')
 }
 
 export const validate = json => {

@@ -33,12 +33,12 @@
     "cids": "^0.5.8",
     "class-is": "^1.1.0",
     "ishex": "^2.1.0",
-    "multicodec": "^1.0.0",
-    "multihashing-async": "^0.8.0",
-    "protons": "^1.1.0"
+    "multicodec": "^1.0.4",
+    "multihashing": "^0.3.3",
+    "protons": "^1.2.1"
   },
   "devDependencies": {
-    "rollup": "^1.28.0",
-    "tape": "^4.12.1"
+    "rollup": "^1.32.1",
+    "tape": "^4.14.0"
   }
 }
