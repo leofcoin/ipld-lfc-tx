@@ -51,11 +51,9 @@ const deserialize = buffer => {
  * @returns {Promise.<CID>}
  */
 const cid = buffer => {
-  return multihashing(buffer, defaultHashAlg, multihash => {
-    const codecName = multicodec.print[codec];
-    return new CID(1, codecName, multihash, 'base58btc')
-  })
-
+  const multihash = multihashing(buffer, defaultHashAlg);
+  const codecName = multicodec.print[codec];
+  return new CID(1, codecName, multihash, 'base58btc')
 };
 
 const validate = json => {
