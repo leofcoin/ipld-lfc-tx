@@ -34,8 +34,7 @@ export const validate = json => {
   if (json.script && typeof json.script !== 'string') throw new Error(`Expected: typeof string got ${typeof json.script} @LFCTx.script`)
 
   if (json.inputs && json.inputs.length > 0) {
-    for (const key of json.inputs) {
-      const input = json.inputs[key]
+    for (const input of json.inputs) {      
       if (input.tx.length !== 64) throw new Error(`Expected: 64 got ${input.tx.length} @LFCTx.inputs[${key}].tx.length`)
       if (isNaN(input.index)) throw new Error(`Expected: typeof number got ${typeof input.index} @LFCTx.inputs[${key}].index`)
       if (isNaN(input.amount)) throw new Error(`Expected: typeof number got ${typeof input.amount} @LFCTx.inputs[${key}].amount`)
